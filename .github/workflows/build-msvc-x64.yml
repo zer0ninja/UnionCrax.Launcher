@@ -1,0 +1,41 @@
+name: Build Launcher x64
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: [" main "]
+  workflow_dispatch: 
+
+jobs:
+  build:
+    name: MSVC x64 Launcher
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up MSVC x64 environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v5
+
+      - name: Configure with CMake (Ninja, Release)
+        run: |
+          cmake -S . -B out/build/x64-Release `
+            -G Ninja `
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build out/build/x64-Release --config Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UC_Launcher-x64
+          path: out/build/x64-Release/bin/UC_Launcher.exe
+          if-no-files-found: error
