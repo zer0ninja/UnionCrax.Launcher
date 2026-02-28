@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Read configuration from INI file
     std::string exePath = getIniString(iniPath, "Launcher", "gameExe", "");
     std::string workingDir = getIniString(iniPath, "Launcher", "workingDir", exeDir);
-    std::string arguments = getIniString(iniPath, "Launcher", "launchArgs   ", "");
+    std::string arguments = getIniString(iniPath, "Launcher", "launchArgs", "");
 
     // Validate required gameExe
     if (exePath.empty()) {
